@@ -7,7 +7,7 @@ Only external library included is Newtonsoft Json; Included it because it makes 
 
 How to use:
 
-    1) Open a cli and navigate to the HackerNews.exe (from the application root) HackerNews-Console-Application/bin/Release/netcoreapp3.1/
+    1) Open a cli and navigate to the HackerNews.exe (from the application root) HackerNews-Console-Application/bin/Release/netcoreapp3.1/win10-x64
     
     2) Execute by entering HackerNews.exe followed by args if desired (default will return 1 page). Use ./HackerNews.exe if using the bash shell. 
     
