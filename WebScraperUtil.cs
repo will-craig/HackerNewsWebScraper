@@ -30,7 +30,7 @@ namespace WebScraper
                 if(match.Success)
                 {                    
                     string title = Sanitize(match.Groups["title"].Value);
-                    string uri = Sanitize(match.Groups["uri"].Value);
+                    string uri = match.Groups["uri"].Value;
                     string author = Sanitize(match.Groups["author"].Value);
                     int points = Int32.TryParse(match.Groups["points"].Value.Trim(), out int p) ? p : 0;
                     int comment = Int32.TryParse(match.Groups["comments"].Value.Trim(), out int c) ? c : 0;

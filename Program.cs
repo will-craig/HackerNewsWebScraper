@@ -17,7 +17,7 @@ namespace WebScraper
         }
 
         //If no post number provided in args, set default to 0
-        private static void GetPosts(int postsToReturn = 100)
+        private static void GetPosts(int postsToReturn = 0)
         {
             string htmlbody = String.Empty;
             GetPagination(1, postsToReturn); //posts are paginated in groups of 30
