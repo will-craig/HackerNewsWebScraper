@@ -29,9 +29,9 @@ namespace WebScraper
                 // if the regex matched, mine out the named capture groups and return a collection of NewsArticles 
                 if(match.Success)
                 {                    
-                    string title = Sanitize(match.Groups["title"].Value);
+                    string title = match.Groups["title"].Value.Sanitize();
                     string uri = match.Groups["uri"].Value;
-                    string author = Sanitize(match.Groups["author"].Value);
+                    string author = match.Groups["author"].Value.Sanitize();
                     int points = Int32.TryParse(match.Groups["points"].Value.Trim(), out int p) ? p : 0;
                     int comment = Int32.TryParse(match.Groups["comments"].Value.Trim(), out int c) ? c : 0;
                     int rank = Int32.TryParse(match.Groups["rank"].Value.Trim(), out int r) ? r : 0;           
@@ -44,13 +44,11 @@ namespace WebScraper
         /// Ensure strings comply with rules for the JSON
         /// </summary>
         /// <returns></returns>
-        private static string Sanitize(string value)
+        private static string Sanitize(this String value)
         {
             value = value.Trim();
-            if (value.Length > 256)
-            {
-                value = value.Substring(0, 256);
-            }
+            if (value.Length > 256)        
+                value.Remove(255);           
             return value;
         }
 
