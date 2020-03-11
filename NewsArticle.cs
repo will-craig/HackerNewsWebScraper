@@ -1,6 +1,6 @@
 namespace WebScraper
 {
-    internal class NewsArticle
+    internal struct NewsArticle
     {
         public string title {get; private set; }
         public string uri { get; private set; }
