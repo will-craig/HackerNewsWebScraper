@@ -9,7 +9,6 @@ namespace WebScraper
 {
     internal static class WebScraperUtil
     {
-        private static string uri = "https://news.ycombinator.com/news?p=";
         private const string delimeter ="class='athing'";
         private const string expression = @"(?:""rank"">(?<rank>\d*)).+(?:href=""(?<uri>.+?)"").+(?:""storylink""(?:\s?rel=""nofollow"")?>(?<title>.+?)<\/a>).+(?:id=""score[\d_""]*>(?<points>.+?)points).+(?:""hnuser"">(?<author>.+?)<\/a>).+>(?:(?<comments>\d*)(?:&nbsp;|\s)?comments?|discuss)";
         
@@ -51,21 +50,5 @@ namespace WebScraper
                 value.Remove(255);           
             return value;
         }
-
-        /// <summary>
-        /// Http client method fetch and return HTML body content of Hacknew site 
-        /// </summary>
-        /// <param name="page"></param>
-        /// <returns></returns>
-        internal static async Task<string> GetWebPage(int page)
-        {
-            using (HttpClient client = new HttpClient())
-            {
-                HttpResponseMessage responseMessage = await client.GetAsync(uri + page);
-                responseMessage.EnsureSuccessStatusCode();
-                return responseMessage.Content.ReadAsStringAsync().Result;
-            }
-        }
-
     }
 }

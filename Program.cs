@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace WebScraper
@@ -7,26 +9,25 @@ namespace WebScraper
     class Program
     {
         private static int pagesToCheck;
-
         public static void Main(string[] args)
         {
             if (args.Count() > 0)
                 HandleOptions(args);
             else
-                GetPosts();
+                GetPosts().GetAwaiter().GetResult();
         }
 
         //If no post number provided in args, set default to 0
-        private static void GetPosts(int postsToReturn = 0)
+        private static async Task GetPosts(int postsToReturn = 100)
         {
-            string htmlbody = String.Empty;
+            var htmlbody = String.Empty;
             GetPagination(1, postsToReturn); //posts are paginated in groups of 30
             for (int i = 0; i < pagesToCheck; i++)
             {
-                htmlbody += WebScraperUtil.GetWebPage(i + 1).Result;       
+                htmlbody+= await HttpUtil.GetWebPage(i + 1);       
             }
             //return IEnumberable of Newsarticles     
-            var articles = WebScraperUtil.ExtractArticles(htmlbody.ToString()).ToList();
+            var articles = WebScraperUtil.ExtractArticles(htmlbody).ToList();
             //If default(0) postToUse, just return everything from the first page 
             if (postsToReturn > 0 && (articles.Count >= postsToReturn))
             {   //Find the difference of the articles found and the postsToReturn argument, then remove the delta to return correct number of posts
@@ -69,7 +70,7 @@ namespace WebScraper
                     case "-p": //Ensure that the n provided in the second arg is a valid int
                         if (args.Count() > 1 && Int32.TryParse(args[1], out int posts))
                         {
-                            if (posts > 0 && posts <= 100) GetPosts(posts);
+                            if (posts > 0 && posts <= 100) GetPosts(posts).GetAwaiter().GetResult();
                             else Console.WriteLine("Number of posts should be between 0 and equal or below 100");
                         }
                         else Console.WriteLine("Not a valid number");
